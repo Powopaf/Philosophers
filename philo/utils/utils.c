@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.c                                     :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pifourni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/19 10:33:14 by pifourni          #+#    #+#             */
-/*   Updated: 2026/01/23 11:45:59 by pifourni         ###   ########.fr       */
+/*   Created: 2026/01/23 14:32:53 by pifourni          #+#    #+#             */
+/*   Updated: 2026/01/23 14:33:01 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "utils.h"
 
-int	ft_atoi(const char *nptr);
-
-int	main(int argc, char **argv)
+int	ft_atoi(const char *nptr)
 {
-	if (argc < 5 || argc > 6)
-		return (error(ERR_INVALID_ARGS));
-	return (EXIT_SUCCESS);
+	size_t	i;
+	int	res;
+
+	res = 0;
+	i = 0;
+	while (nptr[i] >= '0' && nptr[i] <= '9')
+	{
+		res = res * 10 + nptr[i] - '0';
+		i++;
+	}
+	return (res);
 }

@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.c                                     :+:      :+:    :+:   */
+/*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pifourni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/19 10:33:14 by pifourni          #+#    #+#             */
-/*   Updated: 2026/01/23 11:45:59 by pifourni         ###   ########.fr       */
+/*   Created: 2026/01/23 14:37:39 by pifourni          #+#    #+#             */
+/*   Updated: 2026/01/23 14:37:42 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#ifndef ERROR_H
+# define ERROR_H
 
-int	ft_atoi(const char *nptr);
+# include <stdio.h>
+# include <stdlib.h>
 
-int	main(int argc, char **argv)
-{
-	if (argc < 5 || argc > 6)
-		return (error(ERR_INVALID_ARGS));
-	return (EXIT_SUCCESS);
-}
+#define ERR_INVALID_ARGS "Error: Invalid arguments\n"
+
+int	error(const char *msg);
+
+#endif
