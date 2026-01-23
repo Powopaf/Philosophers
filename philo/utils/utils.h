@@ -13,7 +13,7 @@
 #ifndef UTILS_H
 # define UTILS_H
 
-#include <stddef.h>
+# include <stddef.h>
 
 int	ft_atoi(const char *nptr);
 

@@ -3,7 +3,10 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -MMD -MP
 LIB = 
-SRC = 
+SRC = ./philo/philosophers.c \
+	  ./philo/error/error.c \
+	  ./philo/init/init.c \
+	  ./philo/utils/utils.c
 
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)

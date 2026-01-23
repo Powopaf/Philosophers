@@ -16,7 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-#define ERR_INVALID_ARGS "Error: Invalid arguments\n"
+# define ERR_INVALID_ARGS "Error: Invalid arguments\n"
 
 int	error(const char *msg);
 

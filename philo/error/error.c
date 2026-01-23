@@ -17,4 +17,3 @@ int	error(const char *msg)
 	printf("%s", msg);
 	return (EXIT_FAILURE);
 }
-
