@@ -17,6 +17,8 @@ int	alone(void);
 
 int	main(int argc, char **argv)
 {
+	t_data	data;
+
 	if (argc < 5 || argc > 6)
 		return (error(ERR_INVALID_ARGS));
 	return (EXIT_SUCCESS);

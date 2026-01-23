@@ -17,6 +17,8 @@
 # include <stdlib.h>
 
 # define ERR_INVALID_ARGS "Error: Invalid arguments\n"
+# define ERR_MALLOC_PHILO "Error: Memory alloc philo failed\n"
+# define ERR_MALLOC_FORKS "Error: Memory alloc forks failed\n"
 
 int	error(const char *msg);
 
