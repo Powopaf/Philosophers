@@ -13,9 +13,11 @@
 #ifndef INIT_H
 # define INIT_H
 
-# include "../philosophers.h"
+# include <pthread.h>
+# include <stdlib.h>
 # include "../error/error.h"
 # include "../utils/utils.h"
+# include "../struct.h"
 
 int	init_data(t_data *data, int argc, char **argv);
 

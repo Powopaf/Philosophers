@@ -6,7 +6,7 @@
 /*   By: pifourni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:37:39 by pifourni          #+#    #+#             */
-/*   Updated: 2026/01/23 14:37:42 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:38:36 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define ERR_INVALID_ARGS "Error: Invalid arguments\n"
 # define ERR_MALLOC_PHILO "Error: Memory alloc philo failed\n"
 # define ERR_MALLOC_FORKS "Error: Memory alloc forks failed\n"
+# define ERR_GETTIMEOFDAY "Error: Can't get time of day\n"
 
 int	error(const char *msg);
 
