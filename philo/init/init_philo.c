@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.h                                             :+:      :+:    :+:   */
+/*   init_philo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pifourni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/23 15:07:15 by pifourni          #+#    #+#             */
-/*   Updated: 2026/01/23 16:03:34 by pifourni         ###   ########.fr       */
+/*   Created: 2026/01/24 12:50:57 by pifourni          #+#    #+#             */
+/*   Updated: 2026/01/24 12:51:01 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT_H
-# define INIT_H
 
-# include <pthread.h>
-# include <stdlib.h>
-# include "../error/error.h"
-# include "../utils/utils.h"
-# include "../struct.h"
-# include "../actions/action.h"
+#include "init.h"
 
-int	init_data(t_data *data, int argc, char **argv);
-int	init_philo(t_data *data);
+int	init_philo(t_data *data)
+{
+	int	i;
 
-#endif
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		if (pthread_create(&data->philos[i].thread, NULL, &actions, &data->philos[i]) != 0)
+			return (error(ERR_THREAD_CREATE));
+		i++;
+	}
+	while (i-- > 0)
+	{
+		if (pthread_join(data->philos[i].thread, NULL) != 0)
+			return (error(ERR_THREAD_JOIN));
+	}
+	return (EXIT_SUCCESS);
+}

@@ -6,7 +6,9 @@ LIB =
 SRC = ./philosophers.c \
 	  ./error/error.c \
 	  ./init/init.c \
-	  ./utils/utils.c
+	  ./utils/utils.c \
+	  ./actions/action.c \
+	  ./init/init_philo.c \
 
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)

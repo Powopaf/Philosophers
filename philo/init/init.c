@@ -54,6 +54,20 @@ static int check(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
+static int	init_forks(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+			return (error(ERR_MUTEX_INIT));
+		i++;
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	init_data(t_data *data, int argc, char **argv)
 {
 	data->nb_philo = ft_atoi(argv[1]);
@@ -67,6 +81,8 @@ int	init_data(t_data *data, int argc, char **argv)
 	if (check(data))
 		return (EXIT_FAILURE);
 	if (init_philos(data))
+		return (EXIT_FAILURE);
+	if (init_forks(data))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

@@ -20,6 +20,8 @@ int	main(int argc, char **argv)
 		return (error(ERR_INVALID_ARGS));
 	if (init_data(&data, argc, argv))
 		return (EXIT_FAILURE);
+	if (init_philo(&data))
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 

@@ -20,6 +20,9 @@
 # define ERR_MALLOC_PHILO "Error: Memory alloc philo failed\n"
 # define ERR_MALLOC_FORKS "Error: Memory alloc forks failed\n"
 # define ERR_GETTIMEOFDAY "Error: Can't get time of day\n"
+# define ERR_MUTEX_INIT "Error: Mutex initialization failed\n"
+# define ERR_THREAD_CREATE "Error: Thread creation failed\n"
+# define ERR_THREAD_JOIN "Error: Thread join failed\n"
 
 int	error(const char *msg);
 
