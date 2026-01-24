@@ -18,7 +18,13 @@
 # include "../struct.h"
 # include "../utils/utils.h"
 
+# define THINKING "is thinking\n"
+# define TAKEN_FORK "has taken a fork\n"
+# define EATING "is eating\n"
+# define SLEEPING "is sleeping\n"
+# define DIED "died\n"
+
 void *actions(void *arg);
-int	check_death(t_philo *philo);
+void print_action(t_philo *philo, const char *action);
 
 #endif

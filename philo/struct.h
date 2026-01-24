@@ -22,9 +22,11 @@ typedef struct s_philo
 	int				id;
 	int				nb_eat;
 	int				is_alive;
+	long			last_meal;
 	struct s_data	*data;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	lock;
 }	t_philo;
 
 typedef struct s_data

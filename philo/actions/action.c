@@ -12,7 +12,7 @@
 
 #include "action.h"
 
-static void	print_action(t_philo *philo, const char *action)
+void	print_action(t_philo *philo, const char *action)
 {
 	long	timestamp;
 
@@ -24,7 +24,7 @@ static void	print_action(t_philo *philo, const char *action)
 
 static void	eat(t_philo *philo)
 {
-	print_action(philo, "is eating");
+	print_action(philo, EATING);
 	philo->nb_eat++;
 	sleep_ms(philo->data->t_eat);
 }
@@ -32,9 +32,9 @@ static void	eat(t_philo *philo)
 static void	take_forks(t_philo *philo)
 {
 	pthread_mutex_lock(philo->l_fork);
-	print_action(philo, "has taken a fork");
+	print_action(philo, TAKEN_FORK);
 	pthread_mutex_lock(philo->r_fork);
-	print_action(philo, "has taken a fork");
+	print_action(philo, TAKEN_FORK);
 	eat(philo);
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_unlock(philo->l_fork);
@@ -42,9 +42,8 @@ static void	take_forks(t_philo *philo)
 
 static void	sleep_and_think(t_philo *philo)
 {
-	print_action(philo, "is sleeping");
+	print_action(philo, SLEEPING);
 	sleep_ms(philo->data->t_sleep);
-	print_action(philo, "is thinking");
 }
 
 void *actions(void *arg)
@@ -55,7 +54,7 @@ void *actions(void *arg)
 	philo = (t_philo *)arg;
 	while (i < philo->data->nb_eat || philo->data->nb_eat == -1)
 	{
-		print_action(philo, "is thinking");
+		print_action(philo, THINKING);
 		take_forks(philo);
 		sleep_and_think(philo);
 		i++;
