@@ -87,5 +87,7 @@ int	init_data(t_data *data, int argc, char **argv, pthread_t **threads)
 		return (EXIT_FAILURE);
 	if (init_forks(data, threads))
 		return (EXIT_FAILURE);
+	if (pthread_mutex_init(&data->print_lock, NULL) != 0)
+		return (error(ERR_MUTEX_INIT));
 	return (EXIT_SUCCESS);
 }

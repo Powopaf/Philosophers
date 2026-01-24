@@ -14,9 +14,18 @@
 
 static void	cleanup(t_data *data, pthread_t *threads)
 {
+	int	i;
+
 	free(data->philos);
 	free(data->forks);
 	free(threads);
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&data->print_lock);
 }
 
 int	init_philo(t_data *data, pthread_t *threads)

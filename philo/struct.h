@@ -37,6 +37,7 @@ typedef struct s_data
 	int				nb_eat;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	print_lock;
 }	t_data;
 
 #endif
