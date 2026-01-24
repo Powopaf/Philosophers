@@ -6,7 +6,7 @@
 /*   By: pifourni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:32:53 by pifourni          #+#    #+#             */
-/*   Updated: 2026/01/23 17:03:59 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/01/24 11:53:03 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static long get_time()
 int	sleep_ms(int ms)
 {
 	long	start;
-	long	passed;
 
 	start = get_time();
 	if (start < 0)
