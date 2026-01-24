@@ -27,7 +27,7 @@ int	ft_atoi(const char *nptr)
 	return (res);
 }
 
-static long get_time()
+long get_time()
 {
 	struct timeval	tv;
 	

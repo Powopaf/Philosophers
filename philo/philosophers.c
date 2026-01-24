@@ -14,13 +14,14 @@
 
 int	main(int argc, char **argv)
 {
-	t_data	data;
+	t_data		data;
+	pthread_t	*threads;
 
 	if (argc < 5 || argc > 6)
 		return (error(ERR_INVALID_ARGS));
-	if (init_data(&data, argc, argv))
+	if (init_data(&data, argc, argv, &threads))
 		return (EXIT_FAILURE);
-	if (init_philo(&data))
+	if (init_philo(&data, threads))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

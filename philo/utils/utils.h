@@ -20,5 +20,6 @@
 
 int	ft_atoi(const char *nptr);
 int	sleep_ms(int ms);
+long get_time();
 
 #endif

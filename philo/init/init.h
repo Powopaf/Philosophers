@@ -20,7 +20,7 @@
 # include "../struct.h"
 # include "../actions/action.h"
 
-int	init_data(t_data *data, int argc, char **argv);
-int	init_philo(t_data *data);
+int	init_data(t_data *data, int argc, char **argv, pthread_t **threads);
+int	init_philo(t_data *data, pthread_t *threads);
 
 #endif

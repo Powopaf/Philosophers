@@ -54,10 +54,13 @@ static int check(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-static int	init_forks(t_data *data)
+static int	init_forks(t_data *data, pthread_t **threads)
 {
 	int	i;
 
+	*threads = malloc(sizeof(pthread_t) * data->nb_philo);
+	if (!*threads)
+		return (error(ERR_MALLOC_THREADS));
 	i = 0;
 	while (i < data->nb_philo)
 	{
@@ -68,7 +71,7 @@ static int	init_forks(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-int	init_data(t_data *data, int argc, char **argv)
+int	init_data(t_data *data, int argc, char **argv, pthread_t **threads)
 {
 	data->nb_philo = ft_atoi(argv[1]);
 	data->t_die = ft_atoi(argv[2]);
@@ -82,7 +85,7 @@ int	init_data(t_data *data, int argc, char **argv)
 		return (EXIT_FAILURE);
 	if (init_philos(data))
 		return (EXIT_FAILURE);
-	if (init_forks(data))
+	if (init_forks(data, threads))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

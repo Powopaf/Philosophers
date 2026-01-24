@@ -10,24 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "init.h"
 
-int	init_philo(t_data *data)
+static void	cleanup(t_data *data, pthread_t *threads)
+{
+	free(data->philos);
+	free(data->forks);
+	free(threads);
+}
+
+int	init_philo(t_data *data, pthread_t *threads)
 {
 	int	i;
 
 	i = 0;
+	data->start_time = get_time();
+	if (data->start_time < 0)
+		return (EXIT_FAILURE);
 	while (i < data->nb_philo)
 	{
-		if (pthread_create(&data->philos[i].thread, NULL, &actions, &data->philos[i]) != 0)
+		if (pthread_create(&threads[i], NULL, &actions, &data->philos[i]) != 0)
 			return (error(ERR_THREAD_CREATE));
 		i++;
 	}
 	while (i-- > 0)
 	{
-		if (pthread_join(data->philos[i].thread, NULL) != 0)
+		if (pthread_join(threads[i], NULL) != 0)
 			return (error(ERR_THREAD_JOIN));
 	}
+	cleanup(data, threads);
 	return (EXIT_SUCCESS);
 }

@@ -23,6 +23,7 @@
 # define ERR_MUTEX_INIT "Error: Mutex initialization failed\n"
 # define ERR_THREAD_CREATE "Error: Thread creation failed\n"
 # define ERR_THREAD_JOIN "Error: Thread join failed\n"
+# define ERR_MALLOC_THREADS "Error: Memory alloc threads failed\n"
 
 int	error(const char *msg);
 

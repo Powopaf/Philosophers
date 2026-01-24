@@ -12,6 +12,8 @@
 
 #include "action.h"
 
+
+
 void *actions(void *arg)
 {
 	t_philo	*philo;
