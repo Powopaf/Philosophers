@@ -32,7 +32,7 @@ long get_time()
 	struct timeval	tv;
 	
 	if (gettimeofday(&tv, NULL))
-			return (error(ERR_GETTIMEOFDAY));
+			return (error_time(ERR_GETTIMEOFDAY));
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
@@ -41,8 +41,6 @@ int	sleep_ms(int ms)
 	long	start;
 
 	start = get_time();
-	if (start < 0)
-		return (EXIT_FAILURE);
 	while (get_time() - start < ms)
 		usleep(ms / 10);
 	return (EXIT_SUCCESS);

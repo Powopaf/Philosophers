@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   action.h                                           :+:      :+:    :+:   */
+/*   dead.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pifourni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/24 12:50:45 by pifourni          #+#    #+#             */
-/*   Updated: 2026/01/24 12:50:46 by pifourni         ###   ########.fr       */
+/*   Created: 2026/01/24 15:37:15 by pifourni          #+#    #+#             */
+/*   Updated: 2026/01/24 15:37:17 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ACTION_H
-# define ACTION_H
+#include "action.h"
 
-# include <pthread.h>
-# include <stdio.h>
-# include "../struct.h"
-# include "../utils/utils.h"
-
-void *actions(void *arg);
-int	check_death(t_philo *philo);
-
-#endif
+int	check_death(t_philo *philo)
+{
+	if (get_time() - philo->data->start_time > philo->data->t_die)
+		return (1);
+	return (0);
+}

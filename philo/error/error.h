@@ -26,5 +26,6 @@
 # define ERR_MALLOC_THREADS "Error: Memory alloc threads failed\n"
 
 int	error(const char *msg);
+int error_time(const char *msg);
 
 #endif
