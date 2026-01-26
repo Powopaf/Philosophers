@@ -25,6 +25,8 @@
 # define DIED "died\n"
 
 void *actions(void *arg);
+void *monitor1(void *arg);
+void *monitor2(void *arg);
 void print_action(t_philo *philo, const char *action);
 
 #endif

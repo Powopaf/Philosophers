@@ -25,7 +25,7 @@ static void	cleanup(t_data *data, pthread_t *threads)
 		pthread_mutex_destroy(&data->forks[i]);
 		i++;
 	}
-	pthread_mutex_destroy(&data->print_lock);
+	pthread_mutex_destroy(&data->lock);
 }
 
 int	init_philo(t_data *data, pthread_t *threads)
@@ -36,6 +36,10 @@ int	init_philo(t_data *data, pthread_t *threads)
 	data->start_time = get_time();
 	if (data->start_time < 0)
 		return (EXIT_FAILURE);
+	if (data->nb_eat > 0 && pthread_create(&threads[data->nb_philo], NULL, &monitor2, data) != 0)
+		return (error(ERR_THREAD_CREATE));
+	else if (pthread_create(&threads[data->nb_philo], NULL, &monitor1, data) != 0)
+		return (error(ERR_THREAD_CREATE));
 	while (i < data->nb_philo)
 	{
 		if (pthread_create(&threads[i], NULL, &actions, &data->philos[i]) != 0)

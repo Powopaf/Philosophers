@@ -24,7 +24,6 @@ static int init_philos(t_data *data)
 		return (error(ERR_MALLOC_FORKS));
 	data->philos[0].id = 0;
 	data->philos[0].nb_eat = 0;
-	data->philos[0].is_alive = 1;
 	data->philos[0].data = data;
 	data->philos[0].l_fork = &data->forks[0];
 	data->philos[0].r_fork = &data->forks[data->nb_philo - 1];
@@ -33,7 +32,6 @@ static int init_philos(t_data *data)
 	{
 		data->philos[i].id = i;
 		data->philos[i].nb_eat = 0;
-		data->philos[i].is_alive = 1;
 		data->philos[i].data = data;
 		data->philos[i].l_fork = &data->forks[i];
 		data->philos[i].r_fork = &data->forks[i - 1];
@@ -77,6 +75,7 @@ int	init_data(t_data *data, int argc, char **argv, pthread_t **threads)
 	data->t_die = ft_atoi(argv[2]);
 	data->t_eat = ft_atoi(argv[3]);
 	data->t_sleep = ft_atoi(argv[4]);
+	data->finished = 0;
 	if (argc == 6)
 		data->nb_eat = ft_atoi(argv[5]);
 	else
@@ -87,7 +86,7 @@ int	init_data(t_data *data, int argc, char **argv, pthread_t **threads)
 		return (EXIT_FAILURE);
 	if (init_forks(data, threads))
 		return (EXIT_FAILURE);
-	if (pthread_mutex_init(&data->print_lock, NULL) != 0)
+	if (pthread_mutex_init(&data->lock, NULL) != 0)
 		return (error(ERR_MUTEX_INIT));
 	return (EXIT_SUCCESS);
 }

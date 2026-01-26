@@ -14,29 +14,52 @@
 
 static int	check_death(t_philo *philo)
 {
-	if (get_time() - philo->data->start_time > philo->data->t_die)
+	if (get_time() - philo->last_meal > philo->data->t_die)
 		return (1);
 	return (0);
 }
 
-void	*monitor(void *arg)
+void	*monitor1(void *arg)
 {
-	t_philo	*philo;
+	t_data	*data;
 	int		i;
 
-	philo = (t_philo *)arg;
+	data = (t_data *)arg;
 	while (1)
 	{
 		i = 0;
-		while (i < philo->data->nb_philo)
+		while (i < data->nb_philo)
 		{
-			if (check_death(&philo[i]))
+			if (check_death(&data->philos[i]))
 			{
-				print_action(&philo[i], DIED);
-				return (NULL);
+				print_action(&data->philos[i], DIED);
+				return ((void *)0);
 			}
 			i++;
 		}
 	}
-	return (NULL);
+	return ((void *)1);
+}
+
+void	*monitor2(void *arg)
+{
+	t_data	*data;
+	int		i;
+	int		all_ate;
+
+	data = (t_data *)arg;
+	while (1)
+	{
+		i = 0;
+		all_ate = 1;
+		while (i < data->nb_philo)
+		{
+			if (data->philos[i].nb_eat < data->nb_eat)
+				all_ate = 0;
+			i++;
+		}
+		if (all_ate)
+			return ((void *)0);
+	}
+	return ((void *)1);
 }
