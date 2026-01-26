@@ -18,7 +18,7 @@ void	print_action(t_philo *philo, const char *action)
 
 	timestamp = get_time() - philo->data->start_time;
 	pthread_mutex_lock(&philo->data->lock);
-	printf("%ld %d %s\n", timestamp, philo->id + 1, action);
+	printf("%ld %d %s", timestamp, philo->id + 1, action);
 	pthread_mutex_unlock(&philo->data->lock);
 }
 
@@ -53,7 +53,7 @@ void *actions(void *arg)
 	int i = 0;
 
 	philo = (t_philo *)arg;
-	while (i < philo->data->nb_eat || philo->data->nb_eat == -1)
+	while (!philo->data->finished)
 	{
 		print_action(philo, THINKING);
 		take_forks(philo);

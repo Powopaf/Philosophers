@@ -56,6 +56,13 @@ void	*monitor2(void *arg)
 		{
 			if (data->philos[i].nb_eat < data->nb_eat)
 				all_ate = 0;
+			
+			if (check_death(&data->philos[i]))
+			{
+				print_action(&data->philos[i], DIED);
+				data->finished = 1;
+				return ((void *)0);
+			}
 			i++;
 		}
 		if (all_ate)
