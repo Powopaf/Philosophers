@@ -27,6 +27,8 @@ static int init_philos(t_data *data)
 	data->philos[0].data = data;
 	data->philos[0].l_fork = &data->forks[0];
 	data->philos[0].r_fork = &data->forks[data->nb_philo - 1];
+	if (pthread_mutex_init(&data->philos[0].lock, NULL) != 0)
+		return (error(ERR_MUTEX_INIT));
 	i = 0;
 	while (++i < data->nb_philo)
 	{
@@ -35,6 +37,8 @@ static int init_philos(t_data *data)
 		data->philos[i].data = data;
 		data->philos[i].l_fork = &data->forks[i];
 		data->philos[i].r_fork = &data->forks[i - 1];
+		if (pthread_mutex_init(&data->philos[i].lock, NULL) != 0)
+			return (error(ERR_MUTEX_INIT));
 	}
 	return (EXIT_SUCCESS);
 }
@@ -56,7 +60,7 @@ static int	init_forks(t_data *data, pthread_t **threads)
 {
 	int	i;
 
-	*threads = malloc(sizeof(pthread_t) * data->nb_philo);
+	*threads = malloc(sizeof(pthread_t) * (data->nb_philo + 1));
 	if (!*threads)
 		return (error(ERR_MALLOC_THREADS));
 	i = 0;

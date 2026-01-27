@@ -14,9 +14,17 @@
 
 static int	check_death(t_philo *philo)
 {
-	if (get_time() - philo->last_meal > philo->data->t_die)
-		return (1);
-	return (0);
+	long	last_meal;
+	int		result;
+
+	pthread_mutex_lock(&philo->lock);
+	last_meal = philo->last_meal;
+	pthread_mutex_unlock(&philo->lock);
+	if (get_time() - last_meal > philo->data->t_die)
+		result = 1;
+	else
+		result = 0;
+	return (result);
 }
 
 void	*monitor1(void *arg)
@@ -32,11 +40,15 @@ void	*monitor1(void *arg)
 		{
 			if (check_death(&data->philos[i]))
 			{
+				pthread_mutex_lock(&data->lock);
+				data->finished = 1;
+				pthread_mutex_unlock(&data->lock);
 				print_action(&data->philos[i], DIED);
 				return ((void *)0);
 			}
 			i++;
 		}
+		usleep(5);
 	}
 	return ((void *)1);
 }
@@ -60,13 +72,21 @@ void	*monitor2(void *arg)
 			if (check_death(&data->philos[i]))
 			{
 				print_action(&data->philos[i], DIED);
+				pthread_mutex_lock(&data->lock);
 				data->finished = 1;
+				pthread_mutex_unlock(&data->lock);
 				return ((void *)0);
 			}
 			i++;
 		}
 		if (all_ate)
+		{
+			pthread_mutex_lock(&data->lock);
+			data->finished = 1;
+			pthread_mutex_unlock(&data->lock);
 			return ((void *)0);
+		}
+		usleep(5);
 	}
 	return ((void *)1);
 }
