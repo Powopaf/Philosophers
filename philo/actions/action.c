@@ -12,27 +12,6 @@
 
 #include "action.h"
 
-static int	is_finished(t_philo *philo)
-{
-	int	finished;
-
-	pthread_mutex_lock(&philo->data->lock);
-	finished = philo->data->finished;
-	pthread_mutex_unlock(&philo->data->lock);
-	return (finished);
-}
-
-void	print_action(t_philo *philo, const char *action)
-{
-	long	timestamp;
-
-	timestamp = get_time() - philo->data->start_time;
-	pthread_mutex_lock(&philo->data->lock);
-	if (!philo->data->finished)
-		printf("%ld %d %s", timestamp, philo->id + 1, action);
-	pthread_mutex_unlock(&philo->data->lock);
-}
-
 static void	eat(t_philo *philo)
 {
 	print_action(philo, EATING);
@@ -42,6 +21,19 @@ static void	eat(t_philo *philo)
 	sleep_ms(philo->data->t_eat);
 }
 
+static void	unlock_forks(t_philo *philo)
+{
+	pthread_mutex_unlock(philo->l_fork);
+	pthread_mutex_unlock(philo->r_fork);
+}
+
+static void	get_last_meal(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->lock);
+	philo->last_meal = get_time();
+	pthread_mutex_unlock(&philo->lock);
+}
+
 static int	take_forks(t_philo *philo)
 {
 	if (philo->id == philo->data->nb_philo - 1)
@@ -49,51 +41,25 @@ static int	take_forks(t_philo *philo)
 		pthread_mutex_lock(philo->r_fork);
 		print_action(philo, TAKEN_FORK);
 		if (is_finished(philo))
-		{
-			pthread_mutex_unlock(philo->r_fork);
-			return (1);
-		}
-		pthread_mutex_lock(philo->l_fork);
-		print_action(philo, TAKEN_FORK);
+			return (pthread_mutex_unlock(philo->r_fork), 1);
+		lock_print_left(philo);
 		if (is_finished(philo))
-		{
-			pthread_mutex_unlock(philo->l_fork);
-			pthread_mutex_unlock(philo->r_fork);
-			return (1);
-		}
+			return (unlock_forks(philo), 1);
 	}
 	else
 	{
-		pthread_mutex_lock(philo->l_fork);
-		print_action(philo, TAKEN_FORK);
+		lock_print_left(philo);
 		if (is_finished(philo))
-		{
-			pthread_mutex_unlock(philo->l_fork);
-			return (1);
-		}
+			return (pthread_mutex_unlock(philo->l_fork), 1);
 		pthread_mutex_lock(philo->r_fork);
 		print_action(philo, TAKEN_FORK);
 		if (is_finished(philo))
-		{
-			pthread_mutex_unlock(philo->r_fork);
-			pthread_mutex_unlock(philo->l_fork);
-			return (1);
-		}
+			return (unlock_forks(philo), 1);
 	}
-	pthread_mutex_lock(&philo->lock);
-	philo->last_meal = get_time();
-	pthread_mutex_unlock(&philo->lock);
+	get_last_meal(philo);
 	if (!is_finished(philo))
 		eat(philo);
-	pthread_mutex_unlock(philo->r_fork);
-	pthread_mutex_unlock(philo->l_fork);
-	return (0);
-}
-
-static void	sleep_and_think(t_philo *philo)
-{
-	print_action(philo, SLEEPING);
-	sleep_ms(philo->data->t_sleep);
+	return (unlock_forks(philo), 0);
 }
 
 void	*actions(void *arg)

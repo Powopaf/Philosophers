@@ -19,11 +19,11 @@ static int	check_death(t_philo *philo)
 
 	pthread_mutex_lock(&philo->lock);
 	last_meal = philo->last_meal;
-	pthread_mutex_unlock(&philo->lock);
 	if (get_time() - last_meal > philo->data->t_die)
 		result = 1;
 	else
 		result = 0;
+	pthread_mutex_unlock(&philo->lock);
 	return (result);
 }
 
@@ -53,6 +53,13 @@ void	*monitor1(void *arg)
 	return ((void *)1);
 }
 
+static void	lock_finish(t_data *data)
+{
+	pthread_mutex_lock(&data->lock);
+	data->finished = 1;
+	pthread_mutex_unlock(&data->lock);
+}
+
 void	*monitor2(void *arg)
 {
 	t_data	*data;
@@ -62,31 +69,20 @@ void	*monitor2(void *arg)
 	data = (t_data *)arg;
 	while (1)
 	{
-		i = 0;
+		i = -1;
 		all_ate = 1;
-		while (i < data->nb_philo)
+		while (++i < data->nb_philo)
 		{
 			pthread_mutex_lock(&data->philos[i].lock);
 			if (data->philos[i].nb_eat < data->nb_eat)
 				all_ate = 0;
 			pthread_mutex_unlock(&data->philos[i].lock);
 			if (check_death(&data->philos[i]))
-			{
-				print_action(&data->philos[i], DIED);
-				pthread_mutex_lock(&data->lock);
-				data->finished = 1;
-				pthread_mutex_unlock(&data->lock);
-				return ((void *)0);
-			}
-			i++;
+				return (print_action(&data->philos[i], DIED),
+					lock_finish(data), (void *)0);
 		}
 		if (all_ate)
-		{
-			pthread_mutex_lock(&data->lock);
-			data->finished = 1;
-			pthread_mutex_unlock(&data->lock);
-			return ((void *)0);
-		}
+			return (lock_finish(data), (void *)0);
 		usleep(5);
 	}
 	return ((void *)1);

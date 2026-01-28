@@ -9,7 +9,8 @@ SRC = ./philosophers.c \
 	  ./utils/utils.c \
 	  ./actions/action.c \
 	  ./init/init_philo.c \
-	  ./actions/monitor.c
+	  ./actions/monitor.c \
+	  ./actions/utils_actions.c \
 
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)
