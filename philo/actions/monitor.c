@@ -16,14 +16,18 @@ static int	check_death(t_philo *philo)
 {
 	long	last_meal;
 	int		result;
+	int		is_eating;
 
 	pthread_mutex_lock(&philo->lock);
 	last_meal = philo->last_meal;
+	is_eating = philo->is_eating;
+	pthread_mutex_unlock(&philo->lock);
+	if (is_eating)
+		return (0);
 	if (get_time() - last_meal > philo->data->t_die)
 		result = 1;
 	else
 		result = 0;
-	pthread_mutex_unlock(&philo->lock);
 	return (result);
 }
 
@@ -40,10 +44,10 @@ void	*monitor1(void *arg)
 		{
 			if (check_death(&data->philos[i]))
 			{
+				print_action(&data->philos[i], DIED);
 				pthread_mutex_lock(&data->lock);
 				data->finished = 1;
 				pthread_mutex_unlock(&data->lock);
-				print_action(&data->philos[i], DIED);
 				return ((void *)0);
 			}
 			i++;

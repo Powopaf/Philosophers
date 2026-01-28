@@ -28,9 +28,9 @@ $(NAME): $(OBJ)
 -include $(DEP)
 
 clean:
-	rm $(OBJ) $(DEP)
+	rm -f $(OBJ) $(DEP)
 
 fclean: clean
-	rm  $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
