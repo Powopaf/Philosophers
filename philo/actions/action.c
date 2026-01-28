@@ -44,18 +44,7 @@ static void	eat(t_philo *philo)
 
 static int	take_forks(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
-	{
-		pthread_mutex_lock(philo->l_fork);
-		print_action(philo, TAKEN_FORK);
-		if (is_finished(philo))
-		{
-			pthread_mutex_unlock(philo->l_fork);
-			return (1);
-		}
-		pthread_mutex_lock(philo->r_fork);
-	}
-	else
+	if (philo->id == philo->data->nb_philo - 1)
 	{
 		pthread_mutex_lock(philo->r_fork);
 		print_action(philo, TAKEN_FORK);
@@ -65,13 +54,31 @@ static int	take_forks(t_philo *philo)
 			return (1);
 		}
 		pthread_mutex_lock(philo->l_fork);
+		print_action(philo, TAKEN_FORK);
+		if (is_finished(philo))
+		{
+			pthread_mutex_unlock(philo->l_fork);
+			pthread_mutex_unlock(philo->r_fork);
+			return (1);
+		}
 	}
-	print_action(philo, TAKEN_FORK);
-	if (is_finished(philo))
+	else
 	{
-		pthread_mutex_unlock(philo->r_fork);
-		pthread_mutex_unlock(philo->l_fork);
-		return (1);
+		pthread_mutex_lock(philo->l_fork);
+		print_action(philo, TAKEN_FORK);
+		if (is_finished(philo))
+		{
+			pthread_mutex_unlock(philo->l_fork);
+			return (1);
+		}
+		pthread_mutex_lock(philo->r_fork);
+		print_action(philo, TAKEN_FORK);
+		if (is_finished(philo))
+		{
+			pthread_mutex_unlock(philo->r_fork);
+			pthread_mutex_unlock(philo->l_fork);
+			return (1);
+		}
 	}
 	pthread_mutex_lock(&philo->lock);
 	philo->last_meal = get_time();
