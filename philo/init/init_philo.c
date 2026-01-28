@@ -12,7 +12,7 @@
 
 #include "init.h"
 
-static void	cleanup(t_data *data, pthread_t *threads)
+static int	cleanup(t_data *data, pthread_t *threads)
 {
 	int	i;
 
@@ -27,13 +27,13 @@ static void	cleanup(t_data *data, pthread_t *threads)
 	free(data->philos);
 	free(data->forks);
 	free(threads);
+	return (EXIT_SUCCESS);
 }
 
-int	init_philo(t_data *data, pthread_t *threads)
+static int	init_start_time(t_data *data)
 {
 	int	i;
 
-	i = 0;
 	data->start_time = get_time();
 	if (data->start_time < 0)
 		return (EXIT_FAILURE);
@@ -43,19 +43,36 @@ int	init_philo(t_data *data, pthread_t *threads)
 		data->philos[i].last_meal = data->start_time;
 		i++;
 	}
-	i = 0;
+	return (EXIT_SUCCESS);
+}
+
+static int	start_monitors(t_data *data, pthread_t *threads)
+{
 	if (data->nb_eat > 0)
 	{
-		if (pthread_create(&threads[data->nb_philo], NULL, &monitor2, data) != 0)
+		if (pthread_create(&threads[data->nb_philo],
+				NULL, &monitor2, data) != 0)
 			return (error(ERR_THREAD_CREATE));
 	}
-	else if (pthread_create(&threads[data->nb_philo], NULL, &monitor1, data) != 0)
+	else if (pthread_create(&threads[data->nb_philo],
+			NULL, &monitor1, data) != 0)
 		return (error(ERR_THREAD_CREATE));
-	while (i < data->nb_philo)
+	return (EXIT_SUCCESS);
+}
+
+int	init_philo(t_data *data, pthread_t *threads)
+{
+	int	i;
+
+	if (init_start_time(data))
+		return (EXIT_FAILURE);
+	i = -1;
+	if (start_monitors(data, threads))
+		return (EXIT_FAILURE);
+	while (++i < data->nb_philo)
 	{
 		if (pthread_create(&threads[i], NULL, &actions, &data->philos[i]) != 0)
 			return (error(ERR_THREAD_CREATE));
-		i++;
 	}
 	if (pthread_join(threads[data->nb_philo], NULL) != 0)
 		return (error(ERR_THREAD_JOIN));
@@ -64,6 +81,5 @@ int	init_philo(t_data *data, pthread_t *threads)
 		if (pthread_join(threads[i], NULL) != 0)
 			return (error(ERR_THREAD_JOIN));
 	}
-	cleanup(data, threads);
-	return (EXIT_SUCCESS);
+	return (cleanup(data, threads));
 }
