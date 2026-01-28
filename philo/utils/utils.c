@@ -6,7 +6,7 @@
 /*   By: pifourni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:32:53 by pifourni          #+#    #+#             */
-/*   Updated: 2026/01/24 11:53:03 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/01/28 13:51:22 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int	ft_atoi(const char *nptr)
 	return (res);
 }
 
-long get_time()
+long	get_time(void)
 {
 	struct timeval	tv;
-	
+
 	if (gettimeofday(&tv, NULL))
-			return (error_time(ERR_GETTIMEOFDAY));
+		return (error_time(ERR_GETTIMEOFDAY));
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 

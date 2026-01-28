@@ -6,7 +6,7 @@
 /*   By: pifourni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 12:50:42 by pifourni          #+#    #+#             */
-/*   Updated: 2026/01/24 12:50:43 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/01/28 14:01:32 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static void	sleep_and_think(t_philo *philo)
 	sleep_ms(philo->data->t_sleep);
 }
 
-void *actions(void *arg)
+void	*actions(void *arg)
 {
 	t_philo	*philo;
 
@@ -105,9 +105,9 @@ void *actions(void *arg)
 	{
 		print_action(philo, THINKING);
 		if (take_forks(philo))
-			break;
+			break ;
 		if (is_finished(philo))
-			break;
+			break ;
 		sleep_and_think(philo);
 	}
 	return ((void *)EXIT_SUCCESS);

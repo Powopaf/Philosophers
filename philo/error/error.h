@@ -6,7 +6,7 @@
 /*   By: pifourni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:37:39 by pifourni          #+#    #+#             */
-/*   Updated: 2026/01/23 16:38:36 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/01/28 13:52:04 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@
 # define ERR_THREAD_DETACH "Error: Thread detach failed\n"	
 
 int	error(const char *msg);
-int error_time(const char *msg);
+int	error_time(const char *msg);
 
 #endif

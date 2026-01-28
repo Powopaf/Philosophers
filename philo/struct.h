@@ -6,14 +6,14 @@
 /*   By: pifourni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 16:27:09 by pifourni          #+#    #+#             */
-/*   Updated: 2026/01/23 16:29:13 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/01/28 13:49:33 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
 
-#include <pthread.h>
+# include <pthread.h>
 
 struct	s_data;
 
@@ -30,7 +30,7 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	long 			start_time;
+	long			start_time;
 	int				nb_philo;
 	int				t_die;
 	int				t_eat;

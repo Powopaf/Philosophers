@@ -6,13 +6,25 @@
 /*   By: pifourni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 15:07:00 by pifourni          #+#    #+#             */
-/*   Updated: 2026/01/23 16:05:01 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/01/28 14:00:34 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "init.h"
 
-static int init_philos(t_data *data)
+static	int	init_first_philo(t_data *data)
+{
+	data->philos[0].id = 0;
+	data->philos[0].nb_eat = 0;
+	data->philos[0].data = data;
+	data->philos[0].l_fork = &data->forks[0];
+	data->philos[0].r_fork = &data->forks[data->nb_philo - 1];
+	if (pthread_mutex_init(&data->philos[0].lock, NULL) != 0)
+		return (error(ERR_MUTEX_INIT));
+	return (EXIT_SUCCESS);
+}
+
+static int	init_philos(t_data *data)
 {
 	int	i;
 
@@ -22,13 +34,8 @@ static int init_philos(t_data *data)
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
 	if (!data->forks)
 		return (error(ERR_MALLOC_FORKS));
-	data->philos[0].id = 0;
-	data->philos[0].nb_eat = 0;
-	data->philos[0].data = data;
-	data->philos[0].l_fork = &data->forks[0];
-	data->philos[0].r_fork = &data->forks[data->nb_philo - 1];
-	if (pthread_mutex_init(&data->philos[0].lock, NULL) != 0)
-		return (error(ERR_MUTEX_INIT));
+	if (init_first_philo(data) != 0)
+		return (EXIT_FAILURE);
 	i = 0;
 	while (++i < data->nb_philo)
 	{
@@ -43,7 +50,7 @@ static int init_philos(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-static int check(t_data *data)
+static int	check(t_data *data)
 {
 	if (data->nb_philo <= 0)
 		return (EXIT_FAILURE);

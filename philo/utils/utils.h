@@ -6,7 +6,7 @@
 /*   By: pifourni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:33:04 by pifourni          #+#    #+#             */
-/*   Updated: 2026/01/23 17:03:49 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/01/28 13:51:36 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <sys/time.h>
 # include "../error/error.h"
 
-int	ft_atoi(const char *nptr);
-int	sleep_ms(int ms);
-long get_time();
+int		ft_atoi(const char *nptr);
+int		sleep_ms(int ms);
+long	get_time(void);
 
 #endif

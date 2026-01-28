@@ -6,7 +6,7 @@
 /*   By: pifourni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 10:33:14 by pifourni          #+#    #+#             */
-/*   Updated: 2026/01/23 16:32:41 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/01/28 13:49:50 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int	case_one(t_data *data, pthread_t *threads)
 	return (EXIT_SUCCESS);
 }
 
-
 int	main(int argc, char **argv)
 {
 	t_data		data;
@@ -53,4 +52,3 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
-
