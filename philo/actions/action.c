@@ -36,20 +36,36 @@ void	print_action(t_philo *philo, const char *action)
 static void	eat(t_philo *philo)
 {
 	print_action(philo, EATING);
+	pthread_mutex_lock(&philo->lock);
 	philo->nb_eat++;
+	pthread_mutex_unlock(&philo->lock);
 	sleep_ms(philo->data->t_eat);
 }
 
 static int	take_forks(t_philo *philo)
 {
-	pthread_mutex_lock(philo->l_fork);
-	print_action(philo, TAKEN_FORK);
-	if (is_finished(philo))
+	if (philo->id % 2 == 0)
 	{
-		pthread_mutex_unlock(philo->l_fork);
-		return (1);
+		pthread_mutex_lock(philo->l_fork);
+		print_action(philo, TAKEN_FORK);
+		if (is_finished(philo))
+		{
+			pthread_mutex_unlock(philo->l_fork);
+			return (1);
+		}
+		pthread_mutex_lock(philo->r_fork);
 	}
-	pthread_mutex_lock(philo->r_fork);
+	else
+	{
+		pthread_mutex_lock(philo->r_fork);
+		print_action(philo, TAKEN_FORK);
+		if (is_finished(philo))
+		{
+			pthread_mutex_unlock(philo->r_fork);
+			return (1);
+		}
+		pthread_mutex_lock(philo->l_fork);
+	}
 	print_action(philo, TAKEN_FORK);
 	if (is_finished(philo))
 	{
@@ -60,7 +76,8 @@ static int	take_forks(t_philo *philo)
 	pthread_mutex_lock(&philo->lock);
 	philo->last_meal = get_time();
 	pthread_mutex_unlock(&philo->lock);
-	eat(philo);
+	if (!is_finished(philo))
+		eat(philo);
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_unlock(philo->l_fork);
 	return (0);

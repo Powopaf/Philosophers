@@ -66,8 +66,10 @@ void	*monitor2(void *arg)
 		all_ate = 1;
 		while (i < data->nb_philo)
 		{
+			pthread_mutex_lock(&data->philos[i].lock);
 			if (data->philos[i].nb_eat < data->nb_eat)
 				all_ate = 0;
+			pthread_mutex_unlock(&data->philos[i].lock);
 			
 			if (check_death(&data->philos[i]))
 			{
