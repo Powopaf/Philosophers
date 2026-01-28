@@ -24,6 +24,7 @@
 # define ERR_THREAD_CREATE "Error: Thread creation failed\n"
 # define ERR_THREAD_JOIN "Error: Thread join failed\n"
 # define ERR_MALLOC_THREADS "Error: Memory alloc threads failed\n"
+# define ERR_THREAD_DETACH "Error: Thread detach failed\n"	
 
 int	error(const char *msg);
 int error_time(const char *msg);
