@@ -42,9 +42,20 @@ long	get_time(void)
 int	sleep_ms(int ms)
 {
 	long	start;
+	long	elapsed;
+	long	remaining;
 
 	start = get_time();
-	while (get_time() - start < ms)
-		usleep(ms / 10);
+	while (1)
+	{
+		elapsed = get_time() - start;
+		remaining = ms - elapsed;
+		if (remaining <= 0)
+			break ;
+		if (remaining > 1)
+			usleep((remaining - 1) * 1000);
+		else
+			usleep(100);
+	}
 	return (EXIT_SUCCESS);
 }

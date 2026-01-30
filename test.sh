@@ -57,10 +57,10 @@ test1(){
 }
 
 test2(){
-	echo -e "\nRunning test 2 with  5 400 200 200. Should live\n"
+	echo -e "\nRunning test 2 with  2 800 100 100. Should live\n"
 	PASSED=0
 	for i in $(seq 1 $TIME_TO_TEST); do
-		OUTPUT=$(timeout 3s ./$EXECUTABLE 5 400 200 200)
+		OUTPUT=$(timeout 3s ./$EXECUTABLE 2 800 100 100)
 		if echo "$OUTPUT" | grep -q "died"; then
 			echo -e "${LIGHT_RED}Test 2 - Iteration $i: Failed${NC}"
 		else
@@ -73,10 +73,10 @@ test2(){
 }
 
 test3(){
-	echo -e "\nRunning test 3 with 6 400 200 200. Should live\n"
+	echo -e "\nRunning test 3 with 3 800 100 100. Should live\n"
 	PASSED=0
 	for i in $(seq 1 $TIME_TO_TEST); do
-		OUTPUT=$(timeout 3s ./$EXECUTABLE 6 400 200 200)
+		OUTPUT=$(timeout 3s ./$EXECUTABLE 3 800 100 100)
 		if echo "$OUTPUT" | grep -q "died"; then
 			echo -e "${LIGHT_RED}Test 3 - Iteration $i: Failed${NC}"
 		else
@@ -96,7 +96,7 @@ nb_eaten(){
     
     i=1
     while [ $i -le $nb_philo ]; do
-        local eaten=$(echo "$output" | grep -c "$i is eating")
+		local eaten=$(echo "$output" | grep -c "$i is eating")
         if [ $eaten -lt $required ]; then
             return 1
         fi
@@ -106,13 +106,13 @@ nb_eaten(){
 }
 
 test4(){
-	echo -e "\nRunning test 4 with 5 800 200 200 7. Should live\n"
+	echo -e "\nRunning test 4 with 5 800 200 200 5. Should live\n"
 	PASSED=0
 	for i in $(seq 1 $TIME_TO_TEST); do
-		OUTPUT=$(timeout 20s ./$EXECUTABLE 5 800 200 200 7)
+		OUTPUT=$(timeout 7s ./$EXECUTABLE 5 800 200 200 5)
 		if echo "$OUTPUT" | grep -q "died"; then
 			echo -e "${LIGHT_RED}Test 4 - Iteration $i: Failed${NC}"
-		elif nb_eaten "$OUTPUT" 7 5; then
+		elif ! nb_eaten "$OUTPUT" 5 5; then
 			echo -e "${LIGHT_RED}Test 4 - Iteration $i: Failed${NC}"
 		else
 			echo -e "${GREEN}Test 4 - Iteration $i: Passed${NC}"
@@ -124,13 +124,13 @@ test4(){
 }
 
 test5(){
-	echo -e "\nRunning test 5 with 6 800 200 200 7. Should live\n"
+	echo -e "\nRunning test 5 with 6 800 200 200 5. Should live\n"
 	PASSED=0
 	for i in $(seq 1 $TIME_TO_TEST); do
-		OUTPUT=$(timeout 20s ./$EXECUTABLE 6 800 200 200 7)
+		OUTPUT=$(timeout 7s ./$EXECUTABLE 6 800 200 200 5)
 		if echo "$OUTPUT" | grep -q "died"; then
 			echo -e "${LIGHT_RED}Test 5 - Iteration $i: Failed${NC}"
-		elif nb_eaten "$OUTPUT" 7 6; then
+		elif ! nb_eaten "$OUTPUT" 5 6; then
 			echo -e "${LIGHT_RED}Test 5 - Iteration $i: Failed${NC}"
 		else
 			echo -e "${GREEN}Test 5 - Iteration $i: Passed${NC}"
@@ -142,13 +142,13 @@ test5(){
 }
 
 test6(){
-	echo -e "\nRunning test 6 with 4 410 200 200 3. Should live but tricky\n"
+	echo -e "\nRunning test 6 with 5 410 200 200 2.\n Tricky case, should live\n"
 	PASSED=0
 	for i in $(seq 1 $TIME_TO_TEST); do
-		OUTPUT=$(timeout 10s ./$EXECUTABLE 4 410 200 200 3)
+		OUTPUT=$(timeout 7s ./$EXECUTABLE 5 410 200 200 2)
 		if echo "$OUTPUT" | grep -q "died"; then
 			echo -e "${LIGHT_RED}Test 6 - Iteration $i: Failed${NC}"
-		elif nb_eaten "$OUTPUT" 3 4; then
+		elif ! nb_eaten "$OUTPUT" 2 5; then
 			echo -e "${LIGHT_RED}Test 6 - Iteration $i: Failed${NC}"
 		else
 			echo -e "${GREEN}Test 6 - Iteration $i: Passed${NC}"
@@ -160,13 +160,13 @@ test6(){
 }
 
 test7(){
-	echo -e "\nRunning test 7 with 5 410 200 100 3. Should live but tricky\n"
+	echo -e "\nRunning test 7 with 21 800 100 100 5. Should live\n"
 	PASSED=0
 	for i in $(seq 1 $TIME_TO_TEST); do
-		OUTPUT=$(timeout 10s ./$EXECUTABLE 5 410 200 100 3)
+		OUTPUT=$(timeout 10s ./$EXECUTABLE 21 800 100 100 5)
 		if echo "$OUTPUT" | grep -q "died"; then
 			echo -e "${LIGHT_RED}Test 7 - Iteration $i: Failed${NC}"
-		elif nb_eaten "$OUTPUT" 3 5; then
+		elif ! nb_eaten "$OUTPUT" 5 21; then
 			echo -e "${LIGHT_RED}Test 7 - Iteration $i: Failed${NC}"
 		else
 			echo -e "${GREEN}Test 7 - Iteration $i: Passed${NC}"

@@ -51,7 +51,7 @@ void	*monitor1(void *arg)
 			}
 			i++;
 		}
-		usleep(5);
+		usleep(10);
 	}
 	return ((void *)1);
 }
@@ -86,7 +86,7 @@ void	*monitor2(void *arg)
 		}
 		if (all_ate)
 			return (lock_finish(data), (void *)0);
-		usleep(5);
+		usleep(10);
 	}
 	return ((void *)1);
 }
