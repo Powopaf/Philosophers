@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <pthread.h>
+#include <stdio.h>
 #include <unistd.h>
 #include "action.h"
 #include "../utils/utils.h"
@@ -34,6 +35,7 @@ void	*monitor1(void *arg)
 {
 	t_data	*data;
 	int		i;
+	long	timestamp;
 
 	data = (t_data *)arg;
 	while (1)
@@ -43,9 +45,10 @@ void	*monitor1(void *arg)
 		{
 			if (check_death(&data->philos[i]))
 			{
-				print_action(&data->philos[i], DIED);
 				pthread_mutex_lock(&data->lock);
 				data->finished = 1;
+				timestamp = get_time() - data->start_time;
+				printf("%ld %d died\n", timestamp, data->philos[i].id + 1);
 				pthread_mutex_unlock(&data->lock);
 				return ((void *)0);
 			}
@@ -56,11 +59,14 @@ void	*monitor1(void *arg)
 	return ((void *)1);
 }
 
-static void	lock_finish(t_data *data)
+static void	lock_finish(t_data *data, int i)
 {
 	pthread_mutex_lock(&data->lock);
 	data->finished = 1;
 	pthread_mutex_unlock(&data->lock);
+	if (i >= 0)
+		printf("%ld %d died\n", get_time()
+			- data->start_time, data->philos[i].id + 1);
 }
 
 void	*monitor2(void *arg)
@@ -81,11 +87,12 @@ void	*monitor2(void *arg)
 				all_ate = 0;
 			pthread_mutex_unlock(&data->philos[i].lock);
 			if (check_death(&data->philos[i]))
-				return (print_action(&data->philos[i], DIED),
-					lock_finish(data), (void *)0);
+			{
+				return (lock_finish(data, i), (void *)0);
+			}
 		}
 		if (all_ate)
-			return (lock_finish(data), (void *)0);
+			return (lock_finish(data, -1), (void *)0);
 		usleep(10);
 	}
 	return ((void *)1);
