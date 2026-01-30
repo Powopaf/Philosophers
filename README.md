@@ -62,6 +62,7 @@ make fclean
 ## Resources
 
 [Explanation](https://github.com/TommyJD93/Philosophers)
+
 [Base des threads](https://franckh.developpez.com/tutoriels/posix/pthreads/)
 
 ## Notes
