@@ -12,6 +12,18 @@ Key points:
 - Tracks timestamps (in milliseconds) to decide when philosophers die.
 - Includes a monitor thread to detect finished or dead philosophers.
 
+## Test
+
+You can test the program with the script test.sh also test your own :)
+
+- first time running:
+
+```bash
+chmod +x test.sh && ./test.sh
+```
+
+then just `./test.sh`
+
 ## Instructions
 
 ### Build
