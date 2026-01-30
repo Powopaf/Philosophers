@@ -1,8 +1,8 @@
 .PHONY: all clean fclean re
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -MMD -MP -pthread -g -fsanitize=address
-LIB = -pthread -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -MMD -MP -pthread
+LIB = -pthread
 SRC = ./philosophers.c \
 	  ./error/error.c \
 	  ./init/init.c \
