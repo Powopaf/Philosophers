@@ -20,7 +20,6 @@ static	int	init_first_philo(t_data *data)
 {
 	data->philos[0].id = 0;
 	data->philos[0].nb_eat = 0;
-	data->philos[0].is_eating = 0;
 	data->philos[0].data = data;
 	data->philos[0].l_fork = &data->forks[0];
 	data->philos[0].r_fork = &data->forks[data->nb_philo - 1];
@@ -46,7 +45,6 @@ static int	init_philos(t_data *data)
 	{
 		data->philos[i].id = i;
 		data->philos[i].nb_eat = 0;
-		data->philos[i].is_eating = 0;
 		data->philos[i].data = data;
 		data->philos[i].l_fork = &data->forks[i];
 		data->philos[i].r_fork = &data->forks[i - 1];

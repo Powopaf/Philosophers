@@ -15,7 +15,7 @@
 #include "../utils/utils.h"
 #include "action.h"
 
-static void	set_last_meal(t_philo *philo)
+static void	get_last_meal(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->lock);
 	philo->last_meal = get_time();
@@ -24,15 +24,12 @@ static void	set_last_meal(t_philo *philo)
 
 static void	eat(t_philo *philo)
 {
-	print_action(philo, EATING);
 	pthread_mutex_lock(&philo->lock);
-	philo->is_eating = 1;
+	philo->last_meal = get_time();
 	philo->nb_eat++;
 	pthread_mutex_unlock(&philo->lock);
+	print_action(philo, EATING);
 	sleep_ms(philo->data->t_eat);
-	pthread_mutex_lock(&philo->lock);
-	philo->is_eating = 0;
-	pthread_mutex_unlock(&philo->lock);
 }
 
 static void	unlock_forks(t_philo *philo)
@@ -40,14 +37,6 @@ static void	unlock_forks(t_philo *philo)
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
 }
-
-/*
-** Philosopher takes the forks. To avoid deadlock, the last philosopher
-** takes the right fork first.
-** Returns 1 if the simulation is finished, 0 otherwise.
-** The code in if and else is almost the same I recommend to refactor it.
-** use a pointer to function ?
-*/
 
 static int	take_forks(t_philo *philo)
 {
@@ -71,7 +60,10 @@ static int	take_forks(t_philo *philo)
 		if (is_finished(philo))
 			return (unlock_forks(philo), 1);
 	}
-	return (EXIT_SUCCESS);
+	get_last_meal(philo);
+	if (!is_finished(philo))
+		eat(philo);
+	return (unlock_forks(philo), 0);
 }
 
 void	*actions(void *arg)
@@ -84,12 +76,6 @@ void	*actions(void *arg)
 		print_action(philo, THINKING);
 		if (take_forks(philo))
 			break ;
-		if (is_finished(philo))
-			break ;
-		if (!is_finished(philo))
-			eat(philo);
-		set_last_meal(philo);
-		unlock_forks(philo);
 		if (is_finished(philo))
 			break ;
 		sleeping(philo);

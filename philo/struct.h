@@ -21,7 +21,6 @@ typedef struct s_philo
 {
 	int				id;
 	int				nb_eat;
-	int				is_eating;
 	long			last_meal;
 	struct s_data	*data;
 	pthread_mutex_t	*l_fork;

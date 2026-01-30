@@ -19,15 +19,11 @@ static int	check_death(t_philo *philo)
 {
 	long	last_meal;
 	int		result;
-	int		is_eating;
 
 	pthread_mutex_lock(&philo->lock);
 	last_meal = philo->last_meal;
-	is_eating = philo->is_eating;
 	pthread_mutex_unlock(&philo->lock);
-	if (is_eating)
-		return (0);
-	if (get_time() - last_meal >= philo->data->t_die)
+	if (get_time() - last_meal > philo->data->t_die)
 		result = 1;
 	else
 		result = 0;
