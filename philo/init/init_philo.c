@@ -10,6 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include "../error/error.h"
+#include "../utils/utils.h"
+#include "../actions/action.h"
 #include "init.h"
 
 static int	cleanup(t_data *data, pthread_t *threads)

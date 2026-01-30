@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include <unistd.h>
+#include <stddef.h>
+#include <sys/time.h>
+#include "../error/error.h"
 
 int	ft_atoi(const char *nptr)
 {

@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <pthread.h>
+#include <stdlib.h>
+#include "../utils/utils.h"
 #include "action.h"
 
 static void	set_last_meal(t_philo *philo)

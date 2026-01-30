@@ -10,6 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include "../error/error.h"
+#include "../utils/utils.h"
+#include "../actions/action.h"
 #include "init.h"
 
 static	int	init_first_philo(t_data *data)

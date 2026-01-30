@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <pthread.h>
+#include <stdio.h>
 #include "action.h"
+#include "../utils/utils.h"
 
 void	print_action(t_philo *philo, const char *action)
 {

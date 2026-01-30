@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <pthread.h>
+#include <unistd.h>
 #include "action.h"
+#include "../utils/utils.h"
 
 static int	check_death(t_philo *philo)
 {

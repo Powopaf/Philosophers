@@ -10,7 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "error/error.h"
+#include "init/init.h"
+#include "struct.h"
+#include "actions/action.h"
+#include "utils/utils.h"
 
 static void	*philosopher_one(void *arg)
 {

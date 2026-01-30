@@ -13,11 +13,6 @@
 #ifndef UTILS_H
 # define UTILS_H
 
-# include <unistd.h>
-# include <stddef.h>
-# include <sys/time.h>
-# include "../error/error.h"
-
 int		ft_atoi(const char *nptr);
 int		sleep_ms(int ms);
 long	get_time(void);

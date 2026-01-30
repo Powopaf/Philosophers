@@ -13,10 +13,7 @@
 #ifndef ACTION_H
 # define ACTION_H
 
-# include <pthread.h>
-# include <stdio.h>
 # include "../struct.h"
-# include "../utils/utils.h"
 
 # define THINKING "is thinking\n"
 # define TAKEN_FORK "has taken a fork\n"
