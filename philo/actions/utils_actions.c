@@ -33,7 +33,7 @@ int	is_finished(t_philo *philo)
 	return (finished);
 }
 
-void	sleep_and_think(t_philo *philo)
+void	sleeping(t_philo *philo)
 {
 	print_action(philo, SLEEPING);
 	sleep_ms(philo->data->t_sleep);

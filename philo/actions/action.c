@@ -12,7 +12,7 @@
 
 #include "action.h"
 
-static void	get_last_meal(t_philo *philo)
+static void	set_last_meal(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->lock);
 	philo->last_meal = get_time();
@@ -38,6 +38,14 @@ static void	unlock_forks(t_philo *philo)
 	pthread_mutex_unlock(philo->r_fork);
 }
 
+/*
+** Philosopher takes the forks. To avoid deadlock, the last philosopher
+** takes the right fork first.
+** Returns 1 if the simulation is finished, 0 otherwise.
+** The code in if and else is almost the same I recommend to refactor it.
+** use a pointer to function ?
+*/
+
 static int	take_forks(t_philo *philo)
 {
 	if (philo->id == philo->data->nb_philo - 1)
@@ -60,11 +68,7 @@ static int	take_forks(t_philo *philo)
 		if (is_finished(philo))
 			return (unlock_forks(philo), 1);
 	}
-	get_last_meal(philo);
-	if (!is_finished(philo))
-		eat(philo);
-	get_last_meal(philo);
-	return (unlock_forks(philo), 0);
+	return (EXIT_SUCCESS);
 }
 
 void	*actions(void *arg)
@@ -79,7 +83,13 @@ void	*actions(void *arg)
 			break ;
 		if (is_finished(philo))
 			break ;
-		sleep_and_think(philo);
+		if (!is_finished(philo))
+			eat(philo);
+		set_last_meal(philo);
+		unlock_forks(philo);
+		if (is_finished(philo))
+			break ;
+		sleeping(philo);
 	}
 	return ((void *)EXIT_SUCCESS);
 }
