@@ -142,7 +142,7 @@ test5(){
 }
 
 test6(){
-	echo -e "\nRunning test 6 with 5 410 200 200 2.\n Tricky case, should live\n"
+	echo -e "\nRunning test 6 with 4 410 200 200 2. Should live\n"
 	PASSED=0
 	for i in $(seq 1 $TIME_TO_TEST); do
 		OUTPUT=$(timeout 7s ./$EXECUTABLE 5 410 200 200 2)
