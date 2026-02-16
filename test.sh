@@ -145,10 +145,10 @@ test6(){
 	echo -e "\nRunning test 6 with 4 410 200 200 2. Should live\n"
 	PASSED=0
 	for i in $(seq 1 $TIME_TO_TEST); do
-		OUTPUT=$(timeout 7s ./$EXECUTABLE 5 410 200 200 2)
+		OUTPUT=$(timeout 7s ./$EXECUTABLE 4 410 200 200 2)
 		if echo "$OUTPUT" | grep -q "died"; then
 			echo -e "${LIGHT_RED}Test 6 - Iteration $i: Failed${NC}"
-		elif ! nb_eaten "$OUTPUT" 2 5; then
+		elif ! nb_eaten "$OUTPUT" 2 4; then
 			echo -e "${LIGHT_RED}Test 6 - Iteration $i: Failed${NC}"
 		else
 			echo -e "${GREEN}Test 6 - Iteration $i: Passed${NC}"

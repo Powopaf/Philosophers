@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pifourni <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pifourni <pifourni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 15:37:15 by pifourni          #+#    #+#             */
-/*   Updated: 2026/01/28 14:01:58 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/02/16 11:42:22 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	*monitor1(void *arg)
 			}
 			i++;
 		}
-		usleep(10);
+		usleep(1000);
 	}
 	return ((void *)1);
 }
@@ -93,7 +93,7 @@ void	*monitor2(void *arg)
 		}
 		if (all_ate)
 			return (lock_finish(data, -1), (void *)0);
-		usleep(10);
+		usleep(1000);
 	}
 	return ((void *)1);
 }
