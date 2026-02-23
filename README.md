@@ -1,3 +1,5 @@
+*This project has been created as part of the 42 curriculum by pifourni*
+
 # Philosophers
 
 A small simulation of the classical "Dining Philosophers" concurrency problem implemented in C using POSIX threads (pthreads). The program models philosophers who alternate between thinking and eating while sharing forks (mutexes). The goal of the project is to correctly synchronize the philosophers to avoid data races and ensure the program follows the expected behavior (tracking death by starvation, optional meal count, proper locking/unlocking, etc.).
@@ -75,7 +77,7 @@ make fclean
 
 [Explanation](https://github.com/TommyJD93/Philosophers)
 
-[Base des threads](https://franckh.developpez.com/tutoriels/posix/pthreads/)
+[threads](https://franckh.developpez.com/tutoriels/posix/pthreads/)
 
 ## Notes
 
@@ -84,4 +86,6 @@ make fclean
 
 For more details, read the source files in `philo/`.
 
-*This project has been created as part of the 42 curriculum by pifourni*
+### AI
+
+Use to suggest some stuff in the code and code faster.

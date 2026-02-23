@@ -6,7 +6,7 @@
 /*   By: pifourni <pifourni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 15:37:15 by pifourni          #+#    #+#             */
-/*   Updated: 2026/02/16 11:42:22 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/02/23 09:18:33 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,7 @@
 
 static int	check_death(t_philo *philo)
 {
-	long	last_meal;
-	int		result;
-
-	pthread_mutex_lock(&philo->lock);
-	last_meal = philo->last_meal;
-	pthread_mutex_unlock(&philo->lock);
-	if (get_time() - last_meal > philo->data->t_die)
-		result = 1;
-	else
-		result = 0;
-	return (result);
+	return (get_time() - philo->last_meal > philo->data->t_die);
 }
 
 void	*monitor1(void *arg)
@@ -61,9 +51,7 @@ void	*monitor1(void *arg)
 
 static void	lock_finish(t_data *data, int i)
 {
-	pthread_mutex_lock(&data->lock);
 	data->finished = 1;
-	pthread_mutex_unlock(&data->lock);
 	if (i >= 0)
 		printf("%ld %d died\n", get_time()
 			- data->start_time, data->philos[i].id + 1);
@@ -82,10 +70,8 @@ void	*monitor2(void *arg)
 		all_ate = 1;
 		while (++i < data->nb_philo)
 		{
-			pthread_mutex_lock(&data->philos[i].lock);
 			if (data->philos[i].nb_eat < data->nb_eat)
 				all_ate = 0;
-			pthread_mutex_unlock(&data->philos[i].lock);
 			if (check_death(&data->philos[i]))
 			{
 				return (lock_finish(data, i), (void *)0);
