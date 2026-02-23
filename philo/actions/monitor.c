@@ -6,7 +6,7 @@
 /*   By: pifourni <pifourni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 15:37:15 by pifourni          #+#    #+#             */
-/*   Updated: 2026/02/23 09:18:33 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/02/23 11:29:42 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,12 @@ void	*monitor1(void *arg)
 
 static void	lock_finish(t_data *data, int i)
 {
+	pthread_mutex_lock(&data->lock);
 	data->finished = 1;
 	if (i >= 0)
 		printf("%ld %d died\n", get_time()
 			- data->start_time, data->philos[i].id + 1);
+	pthread_mutex_unlock(&data->lock);
 }
 
 void	*monitor2(void *arg)
