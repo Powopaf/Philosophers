@@ -6,7 +6,7 @@
 /*   By: pifourni <pifourni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 12:50:57 by pifourni          #+#    #+#             */
-/*   Updated: 2026/02/23 09:52:02 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/02/23 10:09:09 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ static int	start_monitor(t_data *data, pthread_t *threads)
 {
 	pthread_t	monitor_thread;
 
-	if (data->nb_eat < 0 && pthread_create(&monitor_thread, NULL, monitor1, data))
+	if (data->nb_eat < 0
+		&& pthread_create(&monitor_thread, NULL, monitor1, data))
 	{
 		wait_threads(threads, data->nb_philo - 1);
 		error(ERR_THREAD_CREATE);
