@@ -1,7 +1,7 @@
 .PHONY: all clean fclean re
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -MMD -MP -pthread -g
+CFLAGS = -Wall -Wextra -Werror -MMD -MP -pthread
 LIB = -pthread
 SRC = ./actions/action.c \
 	  ./actions/monitor.c \
