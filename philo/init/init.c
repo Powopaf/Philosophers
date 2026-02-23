@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pifourni <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pifourni <pifourni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 15:07:00 by pifourni          #+#    #+#             */
-/*   Updated: 2026/01/28 14:00:34 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/02/23 09:42:05 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	init_forks(t_data *data, pthread_t **threads)
 {
 	int	i;
 
-	*threads = malloc(sizeof(pthread_t) * (data->nb_philo + 1));
+	*threads = malloc(sizeof(pthread_t) * (data->nb_philo));
 	if (!*threads)
 		return (error(ERR_MALLOC_THREADS));
 	i = 0;

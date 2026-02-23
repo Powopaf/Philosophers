@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_philo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pifourni <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pifourni <pifourni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 12:50:57 by pifourni          #+#    #+#             */
-/*   Updated: 2026/01/24 12:51:01 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/02/23 09:52:02 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,32 @@ static int	init_start_time(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-static int	start_monitors(t_data *data, pthread_t *threads)
+static void	wait_threads(pthread_t *threads, int i)
 {
-	if (data->nb_eat > 0)
+	while (i >= 0)
 	{
-		if (pthread_create(&threads[data->nb_philo],
-				NULL, &monitor2, data) != 0)
-			return (error(ERR_THREAD_CREATE));
+		pthread_join(threads[i], NULL);
+		i--;
 	}
-	else if (pthread_create(&threads[data->nb_philo],
-			NULL, &monitor1, data) != 0)
-		return (error(ERR_THREAD_CREATE));
+}
+
+static int	start_monitor(t_data *data, pthread_t *threads)
+{
+	pthread_t	monitor_thread;
+
+	if (data->nb_eat < 0 && pthread_create(&monitor_thread, NULL, monitor1, data))
+	{
+		wait_threads(threads, data->nb_philo - 1);
+		error(ERR_THREAD_CREATE);
+		return (EXIT_FAILURE);
+	}
+	else if (pthread_create(&monitor_thread, NULL, monitor2, data))
+	{
+		wait_threads(threads, data->nb_philo - 1);
+		error(ERR_THREAD_CREATE);
+		return (EXIT_FAILURE);
+	}
+	pthread_join(monitor_thread, NULL);
 	return (EXIT_SUCCESS);
 }
 
@@ -70,20 +85,15 @@ int	init_philo(t_data *data, pthread_t *threads)
 
 	if (init_start_time(data))
 		return (EXIT_FAILURE);
-	i = -1;
-	if (start_monitors(data, threads))
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		if (pthread_create(&threads[i], NULL, actions, &data->philos[i]))
+			return (wait_threads(threads, i - 1), error(ERR_THREAD_CREATE));
+		i++;
+	}
+	if (start_monitor(data, threads))
 		return (EXIT_FAILURE);
-	while (++i < data->nb_philo)
-	{
-		if (pthread_create(&threads[i], NULL, &actions, &data->philos[i]) != 0)
-			return (error(ERR_THREAD_CREATE));
-	}
-	if (pthread_join(threads[data->nb_philo], NULL) != 0)
-		return (error(ERR_THREAD_JOIN));
-	while (i-- > 0)
-	{
-		if (pthread_join(threads[i], NULL) != 0)
-			return (error(ERR_THREAD_JOIN));
-	}
+	wait_threads(threads, i - 1);
 	return (cleanup(data, threads));
 }
