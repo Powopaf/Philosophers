@@ -18,12 +18,14 @@
 
 static int	check_death(t_philo *philo)
 {
-	long	time;
+	long	last_meal;
+	int		is_dead;
 
 	pthread_mutex_lock(&philo->lock);
-	time = get_time() - philo->last_meal > philo->data->t_die;
+	last_meal = philo->last_meal;
 	pthread_mutex_unlock(&philo->lock);
-	return (time);
+	is_dead = (get_time() - last_meal > philo->data->t_die);
+	return (is_dead);
 }
 
 void	*monitor1(void *arg)

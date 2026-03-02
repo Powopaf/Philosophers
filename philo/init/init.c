@@ -6,7 +6,7 @@
 /*   By: pifourni <pifourni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 15:07:00 by pifourni          #+#    #+#             */
-/*   Updated: 2026/03/02 10:06:17 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/03/02 11:30:22 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ static int	init_philos(t_data *data)
 		return (error(ERR_MALLOC_PHILO));
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
 	if (!data->forks)
-		return (error(ERR_MALLOC_FORKS));
+		return (free(data->philos), error(ERR_MALLOC_FORKS));
 	if (init_first_philo(data) != 0)
-		return (EXIT_FAILURE);
+		return (free(data->philos), free(data->forks), EXIT_FAILURE);
 	i = 0;
 	while (++i < data->nb_philo)
 	{
@@ -49,7 +49,7 @@ static int	init_philos(t_data *data)
 		data->philos[i].l_fork = &data->forks[i];
 		data->philos[i].r_fork = &data->forks[i - 1];
 		if (pthread_mutex_init(&data->philos[i].lock, NULL) != 0)
-			return (error(ERR_MUTEX_INIT));
+			return (clean_mutexes(data, i), error(ERR_MUTEX_INIT));
 	}
 	return (EXIT_SUCCESS);
 }
@@ -78,7 +78,7 @@ static int	init_forks(t_data *data, pthread_t **threads)
 	while (i < data->nb_philo)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
-			return (error(ERR_MUTEX_INIT));
+			return (clean_forks(data, i), error(ERR_MUTEX_INIT));
 		i++;
 	}
 	return (EXIT_SUCCESS);
@@ -100,8 +100,14 @@ int	init_data(t_data *data, int argc, char **argv, pthread_t **threads)
 	if (init_philos(data))
 		return (EXIT_FAILURE);
 	if (init_forks(data, threads))
+	{
+		clean_forks(data, data->nb_philo);
 		return (EXIT_FAILURE);
+	}
 	if (pthread_mutex_init(&data->lock, NULL) != 0)
+	{
+		clean_forks(data, data->nb_philo);
 		return (error(ERR_MUTEX_INIT));
+	}
 	return (EXIT_SUCCESS);
 }
