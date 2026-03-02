@@ -6,7 +6,7 @@
 /*   By: pifourni <pifourni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 15:37:15 by pifourni          #+#    #+#             */
-/*   Updated: 2026/02/23 11:29:42 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/03/02 09:51:58 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,12 @@
 
 static int	check_death(t_philo *philo)
 {
-	return (get_time() - philo->last_meal > philo->data->t_die);
+	long	time;
+
+	pthread_mutex_lock(&philo->lock);
+	time = get_time() - philo->last_meal > philo->data->t_die;
+	pthread_mutex_unlock(&philo->lock);
+	return (time);
 }
 
 void	*monitor1(void *arg)
@@ -72,8 +77,10 @@ void	*monitor2(void *arg)
 		all_ate = 1;
 		while (++i < data->nb_philo)
 		{
+			pthread_mutex_lock(&data->philos[i].lock);
 			if (data->philos[i].nb_eat < data->nb_eat)
 				all_ate = 0;
+			pthread_mutex_unlock(&data->philos[i].lock);
 			if (check_death(&data->philos[i]))
 			{
 				return (lock_finish(data, i), (void *)0);

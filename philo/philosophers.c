@@ -6,7 +6,7 @@
 /*   By: pifourni <pifourni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 10:33:14 by pifourni          #+#    #+#             */
-/*   Updated: 2026/02/23 09:34:57 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/03/02 10:04:52 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ int	main(int argc, char **argv)
 	if (init_data(&data, argc, argv, &threads))
 		return (EXIT_FAILURE);
 	if (init_philo(&data, threads))
+	{
+		cleanup(&data, threads);
 		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }

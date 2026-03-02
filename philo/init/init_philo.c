@@ -6,7 +6,7 @@
 /*   By: pifourni <pifourni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 12:50:57 by pifourni          #+#    #+#             */
-/*   Updated: 2026/02/23 11:38:48 by pifourni         ###   ########.fr       */
+/*   Updated: 2026/03/02 10:04:19 by pifourni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "../actions/action.h"
 #include "init.h"
 
-static int	cleanup(t_data *data, pthread_t *threads)
+int	cleanup(t_data *data, pthread_t *threads)
 {
 	int	i;
 
